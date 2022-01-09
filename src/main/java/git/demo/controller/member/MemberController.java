@@ -1,6 +1,8 @@
 package git.demo.controller.member;
 
 import git.demo.domain.Member;
+import git.demo.repository.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,10 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class MemberController {
+
+    private final MemberRepository memberRepository;
 
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
@@ -28,6 +33,11 @@ public class MemberController {
             log.info("errors={}", bindingResult);
             return "member/join";
         }
+
+        memberRepository.save(member);
         return "redirect:/";
     }
+
+
+
 }
