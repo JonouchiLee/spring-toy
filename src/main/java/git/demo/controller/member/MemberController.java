@@ -1,7 +1,7 @@
 package git.demo.controller.member;
 
 import git.demo.domain.Member;
-import git.demo.repository.MemberRepository;
+import git.demo.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
