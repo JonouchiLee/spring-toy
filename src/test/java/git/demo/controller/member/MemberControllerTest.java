@@ -1,8 +1,10 @@
 package git.demo.controller.member;
 
+import git.demo.repository.member.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -14,6 +16,9 @@ class MemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @MockBean
+    private MemberRepository memberRepository;
 
     @Test
     void joinGetTest() throws Exception {
@@ -44,5 +49,7 @@ class MemberControllerTest {
                 .andExpect(model().attributeHasFieldErrors("member", "userPw"))
                 .andExpect(view().name("member/join"));
     }
+
+
 
 }
