@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -19,6 +20,8 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberRepository memberRepository;
+
+
 
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
@@ -29,8 +32,17 @@ public class MemberController {
 
     @PostMapping("member/join")
     public String joinMember(@Valid @ModelAttribute Member member , BindingResult bindingResult) {
+
+        Optional<Member> CheckCloneMember = memberRepository.findByLoginId(member.getUserId());
+
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
+            return "member/join";
+        }
+
+        else if(CheckCloneMember.isPresent()) {
+            log.info("Clone check errors={}", bindingResult);
+            bindingResult.reject("joinFailClone", "이미 존재하는 아이디입니다.");
             return "member/join";
         }
 
