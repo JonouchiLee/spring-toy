@@ -10,7 +10,7 @@
     <form action="join" th:object="${member}" method="post" >
 
         <div th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err: ${#fields.globalErrors()}" th:text="${err}">글로벌 오류메시지</p>
+            <p th:each="err: ${#fields.globalErrors()}" th:gtext="${err}">글로벌 오류메시지</p>
         </div>
 
         <div>
