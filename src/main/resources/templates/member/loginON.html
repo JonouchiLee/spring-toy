@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+</head>
+<body>
+<div>
+    <h2>메인</h2>
+        <div>
+            <h3 th:text="|로그인: ${member.userId}|">로그인한 ID</h3>
+        </div>
+        <form th:action="logout" method="post">
+        <button onclick="location.href='index.html'" type="submit">로그아웃</button>
+        </form>
+</div>
+</body>
+</html>
