@@ -21,8 +21,6 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
 
-
-
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
         model.addAttribute("member", new Member());

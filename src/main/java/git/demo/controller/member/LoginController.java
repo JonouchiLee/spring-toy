@@ -4,7 +4,7 @@ import git.demo.domain.Member;
 import git.demo.domain.login.LoginForm;
 import git.demo.domain.login.LoginService;
 import git.demo.repository.member.MemberRepository;
-import git.demo.session.SessionConst;
+import git.demo.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
