@@ -54,16 +54,17 @@ public class LoginController {
             return "member/login";
         }
 
-        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
-        log.info("login 계정 {}", loginMember);
+//        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
+        Member chkResult = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
+        log.info("login 계정 {}", chkResult);
 
-        if (loginMember == null) {
+        if (chkResult == null) {
             bindingResult.reject("loginFail", "아이디 혹은 비밀번호가 맞지 않습니다.");
             return "member/login";
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, chkResult);
 
 
         return "redirect:/";
