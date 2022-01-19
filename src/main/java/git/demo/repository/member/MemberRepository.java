@@ -5,13 +5,9 @@ import git.demo.domain.Member;
 import git.demo.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
@@ -40,15 +36,24 @@ public class MemberRepository {
     }
 
 
-    public List<Member> findAll() {
-        return new ArrayList<>(store.values());
-    }
+//    public List<Member> findAll() {
+//        return new ArrayList<>(store.values());
+//    }
+
+//    public void findAll() {
+//         memberMapper.selectMember();
+//    }
 
 
-    public Optional<Member> findByLoginId(String loginId) {
-        return findAll().stream()
-                .filter(m-> m.getUserId().equals(loginId))
-                .findFirst();
+
+//    public Optional<Member> findByLoginId(String loginId) {
+//        return findAll().stream()
+//                .filter(m-> m.getUserId().equals(loginId))
+//                .findFirst();
+//    }
+
+    public Member findByLoginId(String loginId, String loginPw) {
+        return memberMapper.findLoginId(loginId,loginPw);
     }
 
 }
