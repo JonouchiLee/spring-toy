@@ -1,6 +1,7 @@
 package git.demo.controller.member;
 
 import git.demo.domain.Member;
+import git.demo.mapper.MemberMapper;
 import git.demo.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import java.util.Optional;
 public class MemberController {
 
     private final MemberRepository memberRepository;
+    private final MemberMapper memberMapper;
 
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
@@ -31,14 +33,15 @@ public class MemberController {
     @PostMapping("member/join")
     public String joinMember(@Valid @ModelAttribute Member member , BindingResult bindingResult) {
 
-        Optional<Member> CheckCloneMember = memberRepository.findByLoginId(member.getUserId());
+//        Optional<Member> CheckCloneMember = memberRepository.findByLoginId(member.getUserId());
+        Member CheckCloneMember = memberMapper.chkDuplicateId(member.getUserId());
 
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             return "member/join";
         }
 
-        else if(CheckCloneMember.isPresent()) {
+        else if(CheckCloneMember!=null) {
             log.info("Clone check errors={}", bindingResult);
             bindingResult.reject("joinFailClone", "이미 존재하는 아이디입니다.");
             return "member/join";
