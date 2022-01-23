@@ -10,7 +10,10 @@
         <div>
             <h3 th:text="|로그인: ${member.userId}|">로그인한 ID</h3>
         </div>
-        <form th:action="logout" method="post">
+    <button onclick="location.href='/file/upload'" type="submit">파일업로드</button>
+    <button onclick="location.href='/book/controlBook'" type="submit">책 관리</button>
+
+    <form th:action="logout" method="post">
         <button onclick="location.href='index.html'" type="submit">로그아웃</button>
         </form>
 </div>
