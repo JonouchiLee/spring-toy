@@ -16,12 +16,13 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new UrlInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/","/member/join","/member/login","/logout","/css/**", "/error", "/file/upload" , "/error-*");
+                .excludePathPatterns("/","/member/join","/member/login","/logout","/css/**",
+                        "/error", "/file/upload" , "/error-*", "/api/members/**", "/book/**");
 
 
         registry.addInterceptor(new FileInterceptor())
                 .order(2)
-                .addPathPatterns("/file/upload");
+                .addPathPatterns("/file/upload" , "/book/**");
 
     }
 }
