@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>책 등록폼</title>
+</head>
+<body>
+
+<div>
+    <h2>책 등록</h2>
+<form action="createBook" th:object="${book}" method="post">
+
+<!--    <div th:if="${#fields.hasGlobalErrors()}">-->
+<!--        <p th:each="err: ${#fields.globalErrors()}" th:text="${err}">글로벌 오류메시지</p>-->
+<!--    </div>-->
+
+    <div>
+        책이름: <input type="text"  th:field="*{bookName}" placeholder="책이름을 입력해주세요">
+        <div class="field-error" th:errors="*{bookName}">
+            책이름 오류
+        </div>
+    </div>
+
+    <div>
+        가격: <input type="text" th:field="*{price}" placeholder="가격을 입력해주세요">
+        <div class="field-error" th:errors="*{price}">
+            가격 오류
+        </div>
+    </div>
+
+
+    <div>
+        수량: <input type="text" th:field="*{quantity}" placeholder="수량을 입력해주세요">
+        <div class="field-error" th:errors="*{quantity}">
+            수량 오류
+        </div>
+
+    </div>
+    <button type="submit">상품등록</button>
+    <button onclick="location.href='/controlBook.html'" th:onclick="|location.href='@{/book/controlBook}'|" type="button">취소</button>
+</form>
+</div>
+</body>
+</html>
