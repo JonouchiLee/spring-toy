@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="git.demo.mapper.BookMapper">
+
+<!--    <resultMap id="memberDTO" type="git.demo.domain.member.Member">-->
+<!--        <result property="id" column="id"/>-->
+<!--        <result property="userId" column="userid"/>-->
+<!--        <result property="userPw" column="pw"/>-->
+<!--    </resultMap>-->
+
+    <insert id="insertBook" parameterType="git.demo.domain.book.Book">
+        INSERT INTO BOOK(id,name,price,quantity)
+        VALUES(#{id}, #{bookName}, #{price},#{quantity})
+    </insert>
+</mapper>

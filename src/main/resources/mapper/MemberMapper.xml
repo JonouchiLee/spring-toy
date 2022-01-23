@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="git.demo.mapper.MemberMapper">
+
+<!--    <select id="findLoginId" parameterType="map" resultType="git.demo.domain.member.Member">-->
+<!--        select id, userid, pw from member-->
+<!--        where userid= #{loginId} and pw= #{loginPw}-->
+<!--    </select>-->
+
+    <resultMap id="memberDTO" type="git.demo.domain.member.Member">
+        <result property="id" column="id"/>
+        <result property="userId" column="userid"/>
+        <result property="userPw" column="pw"/>
+    </resultMap>
+
+    <select id="findLoginId" resultMap="memberDTO">
+        select id, userid,pw from member
+        where userid= #{loginId} and pw= #{loginPw}
+    </select>
+
+
+    <select id="chkDuplicateId" parameterType="String" resultType="git.demo.domain.member.Member">
+        select userid from member
+        where userid= #{userId}
+    </select>
+
+    <insert id="insertMember" parameterType="git.demo.domain.member.Member">
+        INSERT INTO MEMBER(id,userid,pw)
+        VALUES(#{id}, #{userId}, #{userPw})
+    </insert>
+</mapper>
