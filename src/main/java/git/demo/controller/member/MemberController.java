@@ -1,6 +1,6 @@
 package git.demo.controller.member;
 
-import git.demo.domain.Member;
+import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
 import git.demo.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @Slf4j
 @Controller
