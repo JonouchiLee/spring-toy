@@ -1,8 +1,8 @@
 package git.demo.controller.member;
 
-import git.demo.domain.Member;
-import git.demo.domain.login.LoginForm;
-import git.demo.domain.login.LoginService;
+import git.demo.domain.member.Member;
+import git.demo.domain.member.login.LoginForm;
+import git.demo.service.login.LoginService;
 import git.demo.repository.member.MemberRepository;
 import git.demo.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
