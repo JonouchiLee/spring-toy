@@ -1,7 +1,7 @@
 package git.demo.repository.member;
 
 
-import git.demo.domain.Member;
+import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
