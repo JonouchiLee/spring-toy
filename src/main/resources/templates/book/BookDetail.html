@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+
+    <div>
+        책ID<input type="text" value="1" th:value="${book.id}" readonly>
+    </div>
+
+    <div>
+        책이름<input type="text" value="책1" th:value="${book.bookName}" readonly>
+    </div>
+
+    <div>
+        책가격<input type="text" value="1000" th:value="${book.price}" readonly>
+    </div>
+
+    <div>
+        책수량<input type="text" value="10" th:value="${book.quantity}" readonly>
+    </div>
+
+    <button onclick="location.href='updateBook'" th:onclick="|location.href='@{/book/readBookList/{bookId}/edit(bookId=${book.id})}'|" type="button">상품수정</button>
+    <button onclick="location.href='readBookList'" th:onclick="|location.href='@{/book/readBookList}'|" type="button">뒤로가기</button>
+
+
+</body>
+</html>

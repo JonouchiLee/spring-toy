@@ -1,10 +1,30 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
 </head>
 <body>
 
+<form action="updateBookFin" th:object="${book}" method="post">
+<div>
+    책ID<input type="text" value="1" th:field="*{id}" th:value="${book.id}" readonly>
+</div>
+
+<div>
+    책이름<input type="text" value="책1" th:field="*{bookName}"th:value="${book.bookName}">
+</div>
+
+<div>
+    책가격<input type="text" value="1000" th:field="*{price}"th:value="${book.price}" >
+</div>
+
+<div>
+    책수량<input type="text" value="10" th:field="*{quantity}" th:value="${book.quantity}">
+</div>
+
+<button type="submit">저장</button>
+
+    <button onclick="location.href='BookDetail'" th:onclick="|location.href='@{/book/BookDetail/{bookId}(bookId=${book.id})}'|" type="button">취소</button>
+</form>
 </body>
 </html>
