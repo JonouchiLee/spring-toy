@@ -1,15 +1,17 @@
 package git.demo.service.member;
 
 
+import git.demo.exception.DuplicateIdException;
 import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
+import git.demo.util.pwEncrypter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 
 @Slf4j
-@Repository
+@Service
 @RequiredArgsConstructor
 public class MemberService {
 
@@ -18,11 +20,21 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
 
-    public void save(Member member) {
+    public Member save(Member member)  {
+        if(isExistsId(member.getUserId())){
+            throw new DuplicateIdException("이미 존재하는 아이디입니다."+ member.getUserId());
+        }
         member.setId(++sequence);
         System.out.println("member상태="+  member + "member id값의상태=" + member.getId() );
         log.info("회원가입완료", member);
+        encryptMember(member);
         memberMapper.insertMember(member);
+
+        return member;
+    }
+
+    public boolean isExistsId(String userId) {
+        return memberMapper.isExistsId(userId);
     }
 
 
@@ -37,6 +49,13 @@ public class MemberService {
 
     public Member findByLoginId(String loginId, String loginPw) {
         return memberMapper.findLoginId(loginId,loginPw);
+    }
+
+
+
+    public void encryptMember(Member member) {
+        String encryptedPassword = pwEncrypter.encrypt(member.getUserPw());
+        member.setUserPw(encryptedPassword);
     }
 
 }
