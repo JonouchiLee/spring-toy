@@ -16,4 +16,7 @@ public interface BookMapper {
     List<Book> findAllBook();
 
     void updateBook(@Param("id")Long id, @Param("bookName")String bookName, @Param("price")Integer price, @Param("quantity")Integer quantity);
+
+    void deleteBook(Long bookId);
+
 }
