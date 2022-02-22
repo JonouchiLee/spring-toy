@@ -31,10 +31,12 @@ public class BookController {
     }
 
 
+
     @GetMapping("/createBook")
     public String insertBookForm(@ModelAttribute Book book) {
         log.info("insertBookForm GetMapping 실행");
         return "book/createBook";
+
     }
 
     @PostMapping("/createBook")
@@ -68,6 +70,8 @@ public class BookController {
         return "book/BookDetail";
     }
 
+
+
     @GetMapping("/readBookList/{bookId}/edit")
     public String editBook(@PathVariable Long bookId, Model model) {
         Book book = bookMapper.findBookById(bookId);
@@ -85,6 +89,18 @@ public class BookController {
         redirectAttributes.addAttribute("status", true);
         return "redirect:/book/readBookList";
     }
+
+
+
+    @PostMapping("/BookDetail/{bookId}/bookDelete")
+    public String deleteBookGet(@PathVariable Long bookId) {
+        Book book = bookMapper.findBookById(bookId);
+        bookMapper.deleteBook(bookId);
+        log.info("deleteBook 성공");
+        return "redirect:/book/readBookList";
+    }
+
+
 
 
 
