@@ -2,7 +2,7 @@ package git.demo.controller.member;
 
 import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
-import git.demo.repository.member.MemberRepository;
+import git.demo.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final MemberMapper memberMapper;
 
     @GetMapping("member/join")
@@ -33,20 +33,19 @@ public class MemberController {
     public String joinMember(@Valid @ModelAttribute Member member , BindingResult bindingResult) {
 
 //        Optional<Member> CheckCloneMember = memberRepository.findByLoginId(member.getUserId());
-        Member CheckCloneMember = memberMapper.chkDuplicateId(member.getUserId());
-
+        boolean CheckCloneMember = memberMapper.isExistsId(member.getUserId());
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             return "member/join";
         }
 
-        else if(CheckCloneMember!=null) {
+        else if(CheckCloneMember) {
             log.info("Clone check errors={}", bindingResult);
             bindingResult.reject("joinFailClone", "이미 존재하는 아이디입니다.");
             return "member/join";
         }
 
-        memberRepository.save(member);
+        memberService.save(member);
         return "redirect:/";
     }
 
