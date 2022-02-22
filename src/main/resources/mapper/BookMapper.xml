@@ -29,6 +29,10 @@
         UPDATE BOOK SET NAME = #{bookName}, price=#{price}, quantity=#{quantity} WHERE ID=#{id}
     </update>
 
+    <delete id="deleteBook">
+        DELETE FROM BOOK WHERE ID=#{bookId}
+    </delete>
+
 
 
 </mapper>
