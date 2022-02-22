@@ -21,13 +21,12 @@
     </select>
 
 
-    <select id="chkDuplicateId" parameterType="String" resultType="git.demo.domain.member.Member">
-        select userid from member
-        where userid= #{userId}
-    </select>
-
     <insert id="insertMember" parameterType="git.demo.domain.member.Member">
         INSERT INTO MEMBER(id,userid,pw)
         VALUES(#{id}, #{userId}, #{userPw})
     </insert>
+
+    <select id="isExistsId" resultType="boolean">
+        SELECT EXISTS(select userid from member where userid= #{userId})
+    </select>
 </mapper>
