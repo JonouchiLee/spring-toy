@@ -15,13 +15,18 @@
         <result property="userPw" column="pw"/>
     </resultMap>
 
-    <select id="findLoginId" resultMap="memberDTO">
-        select id, userid,pw from member
-        where userid= #{loginId} and pw= #{loginPw}
+<!--    <select id="findLoginId" resultMap="memberDTO">-->
+<!--        select id, userid,pw from member-->
+<!--        where userid= #{loginId} and pw= #{loginPw}-->
+<!--    </select>-->
+
+    <select id="findMemberById" resultMap="memberDTO">
+        select id, userid, pw from member
+        where userid= #{loginId}
     </select>
 
 
-    <insert id="insertMember" parameterType="git.demo.domain.member.Member">
+    <insert id="insertMember" parameterType="git.demo.domain.member.Member" >
         INSERT INTO MEMBER(id,userid,pw)
         VALUES(#{id}, #{userId}, #{userPw})
     </insert>
