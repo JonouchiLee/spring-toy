@@ -2,8 +2,8 @@ package git.demo.controller.member;
 
 import git.demo.domain.member.Member;
 import git.demo.domain.member.login.LoginForm;
-import git.demo.service.login.LoginService;
-import git.demo.repository.member.MemberRepository;
+import git.demo.service.member.LoginService;
+import git.demo.service.member.MemberService;
 import git.demo.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     private final LoginService loginService;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
     @GetMapping("/")
     public String homeLogin(@SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
@@ -42,7 +42,6 @@ public class LoginController {
     @GetMapping("member/login")
     public String loginMemberForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
-        log.info("GetMapping login 실행");
         return "member/login";
     }
 
@@ -65,8 +64,6 @@ public class LoginController {
 
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, chkResult);
-
-
         return "redirect:/";
     }
 

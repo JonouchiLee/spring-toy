@@ -1,4 +1,4 @@
-package git.demo.service.login;
+package git.demo.service.member;
 
 import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
@@ -19,7 +19,7 @@ public class LoginService {
 //    }
 
     public Member login(String loginId, String loginPw) {
-        Member memberLoginId = memberMapper.findLoginId(loginId, loginPw);
+        Member memberLoginId = memberMapper.findMemberById(loginId);
         System.out.println("memberLoginId =" + memberLoginId);
         return memberLoginId;
     }

@@ -13,7 +13,5 @@ public interface MemberMapper {
 
     void insertMember(Member member);
 
-    Member findLoginId(@Param("loginId")String loginId, @Param("loginPw")String loginPw);
-
-
+    Member findMemberById(String loginId);
 }

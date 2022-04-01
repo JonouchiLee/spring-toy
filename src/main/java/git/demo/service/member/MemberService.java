@@ -47,8 +47,8 @@ public class MemberService {
 //    }
 
 
-    public Member findByLoginId(String loginId, String loginPw) {
-        return memberMapper.findLoginId(loginId,loginPw);
+    public Member findByLoginId(String loginId) {
+        return memberMapper.findMemberById(loginId);
     }
 
 

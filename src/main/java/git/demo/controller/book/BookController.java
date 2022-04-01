@@ -26,17 +26,13 @@ public class BookController {
 
     @GetMapping("/controlBook")
     public String controlBookPage() {
-        log.info("controlBookPage GetMapping 실행");
         return "book/controlBook";
     }
 
 
-
     @GetMapping("/createBook")
     public String insertBookForm(@ModelAttribute Book book) {
-        log.info("insertBookForm GetMapping 실행");
         return "book/createBook";
-
     }
 
     @PostMapping("/createBook")

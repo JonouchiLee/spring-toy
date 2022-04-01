@@ -13,6 +13,8 @@ public interface BookMapper {
 
     Book findBookById(Long bookId);
 
+    Book findBookByName(String bookName);
+
     List<Book> findAllBook();
 
     void updateBook(@Param("id")Long id, @Param("bookName")String bookName, @Param("price")Integer price, @Param("quantity")Integer quantity);

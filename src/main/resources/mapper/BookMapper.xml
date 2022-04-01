@@ -21,6 +21,11 @@
         WHERE id=#{bookId}
     </select>
 
+    <select id="findBookByName" parameterType="String" resultMap="BookDTO">
+        SELECT * FROM BOOK
+        WHERE name=#{bookName}
+    </select>
+
     <select id="findAllBook" resultMap="BookDTO">
         SELECT * FROM BOOK
     </select>

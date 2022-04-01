@@ -1,8 +1,13 @@
 package git.demo.controller.member;
 
-import git.demo.domain.login.LoginService;
-import git.demo.repository.member.MemberRepository;
+import git.demo.domain.member.Member;
+import git.demo.mapper.BookMapper;
+import git.demo.mapper.MemberMapper;
+import git.demo.service.book.BookService;
+import git.demo.service.member.LoginService;
+import git.demo.service.member.MemberService;
 import git.demo.web.session.SessionConst;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,29 +28,94 @@ class LoginControllerTest {
     MockMvc mockMvc;
 
     @MockBean
+    private BookService bookService;
+
+    @MockBean
+    private BookMapper bookMapper;
+
+    @MockBean
     private LoginService loginService;
 
     @MockBean
-    private MemberRepository memberRepository;
+    private MemberService memberService;
 
-    @Test
-    @DisplayName("home GetMapping 테스트")
-    void HomeGetTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(request().sessionAttribute(SessionConst.LOGIN_MEMBER,notNullValue()));
+    @MockBean
+    private MemberMapper memberMapper;
+
+    Member member;
+
+    @BeforeEach
+    void sessionSetup(){
+        member = new Member();
+        member.setUserId("test");
+        member.setId(1L);
+        member.setUserPw("1234");
     }
 
     @Test
-    @DisplayName("login GetMapping 테스트")
-    void LoginGetTest() throws Exception {
+    @DisplayName("세션이있으면 로그인페이지로, 세션이없으면 index페이지로 간다")
+    void homeLoginTest() throws Exception {
+
+        /**
+         * 세션이 있을때
+         */
+        mockMvc.perform(MockMvcRequestBuilders.get("/")
+        .sessionAttr("loginMember",member))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(request().sessionAttribute(SessionConst.LOGIN_MEMBER, notNullValue()))
+                .andExpect(model().attributeExists("member"))
+                .andExpect(view().name("member/loginON"));
+
+        /**
+         * 세션이 없을때
+         */
+        mockMvc.perform(MockMvcRequestBuilders.get("/"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(request().sessionAttribute(SessionConst.LOGIN_MEMBER, nullValue()))
+                .andExpect(view().name("index"));
+    }
+
+    @Test
+    @DisplayName("loginMemberForm 테스트")
+    void loginMemberFormTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/member/login"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("member/login"))
                 .andExpect(model().attributeExists("loginForm"));
     }
+
+
+    /**
+     * chkResult때문에 안됨...나중에 해결하기
+     */
+    @Test
+    @DisplayName("loginMember Bindresult가없으면 리다이렉트한다.")
+    void loginMemberTest() throws Exception {
+        Member chkResult = member;
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/login")
+        .param("loginId","test")
+        .param("loginPw","1234"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(model().hasNoErrors())
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    @DisplayName("loginMember BindResult가있으면 login페이지로 간다")
+    void loginMember_실패() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/login"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(model().hasErrors())
+                .andExpect(view().name("member/login"));
+    }
+
+
+
 
 
 //    @Test
