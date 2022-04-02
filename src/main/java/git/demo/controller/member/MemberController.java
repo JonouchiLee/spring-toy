@@ -25,15 +25,14 @@ public class MemberController {
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
         model.addAttribute("member", new Member());
-        log.info("GetMapping join 실행");
         return "member/join";
     }
 
     @PostMapping("member/join")
     public String joinMember(@Valid @ModelAttribute Member member , BindingResult bindingResult) {
 
-//        Optional<Member> CheckCloneMember = memberRepository.findByLoginId(member.getUserId());
         boolean CheckCloneMember = memberMapper.isExistsId(member.getUserId());
+
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             return "member/join";
@@ -44,7 +43,6 @@ public class MemberController {
             bindingResult.reject("joinFailClone", "이미 존재하는 아이디입니다.");
             return "member/join";
         }
-
         memberService.save(member);
         return "redirect:/";
     }
