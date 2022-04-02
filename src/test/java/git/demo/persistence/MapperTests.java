@@ -68,6 +68,7 @@ class MapperTests {
         // insertBook , findBookById
         bookMapper.insertBook(book);
         assertThat(bookMapper.findBookById(1L)).isEqualTo(book);
+        assertThat(bookMapper.findBookByName("토비의스프링")).isEqualTo(book);
 
         // updateBook
         bookMapper.updateBook(1L,"토비의스프링2권",50000,25);
@@ -78,6 +79,6 @@ class MapperTests {
         //deleteBook
         bookMapper.deleteBook(1L);
         assertThat(bookMapper.findBookById(1L)).isNull();
-
     }
+
 }
