@@ -4,7 +4,7 @@ package git.demo.service.member;
 import git.demo.exception.DuplicateIdException;
 import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
-import git.demo.util.pwEncrypter;
+import git.demo.util.PasswordEncrypt;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,6 @@ public class MemberService {
         log.info("회원가입완료", member);
         encryptMember(member);
         memberMapper.insertMember(member);
-
         return member;
     }
 
@@ -54,7 +53,7 @@ public class MemberService {
 
 
     public void encryptMember(Member member) {
-        String encryptedPassword = pwEncrypter.encrypt(member.getUserPw());
+        String encryptedPassword = PasswordEncrypt.encrypt(member.getUserPw());
         member.setUserPw(encryptedPassword);
     }
 

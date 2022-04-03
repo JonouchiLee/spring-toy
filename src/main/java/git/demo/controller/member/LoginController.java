@@ -54,6 +54,7 @@ public class LoginController {
         }
 
 //        Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
+
         Member chkResult = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
         log.info("login 계정 {}", chkResult);
 

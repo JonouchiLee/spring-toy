@@ -12,7 +12,7 @@
     </resultMap>
 
     <insert id="insertBook" parameterType="git.demo.domain.book.Book">
-        INSERT INTO BOOK(id,name,price,quantity)
+        INSERT INTO Book(id,name,price,quantity)
         VALUES(#{id}, #{bookName}, #{price},#{quantity})
     </insert>
 

@@ -2,7 +2,7 @@ package git.demo.util;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-public class pwEncrypter {
+public class PasswordEncrypt {
 
 
     public static String encrypt(String password) {
@@ -12,6 +12,5 @@ public class pwEncrypter {
     public static boolean isMatch(String password, String hashedPassword) {
         return BCrypt.checkpw(password, hashedPassword);
     }
-
 
 }
