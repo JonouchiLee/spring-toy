@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private static long sequence = 0L;
-
     private final MemberMapper memberMapper;
 
 
@@ -24,10 +22,8 @@ public class MemberService {
         if(isExistsId(member.getUserId())){
             throw new DuplicateIdException("이미 존재하는 아이디입니다."+ member.getUserId());
         }
-        member.setId(++sequence);
-        System.out.println("member상태="+  member + "member id값의상태=" + member.getId() );
-        log.info("회원가입완료", member);
         encryptMember(member);
+        System.out.println("MemberService로 넘어오는 member" + member);
         memberMapper.insertMember(member);
         return member;
     }
@@ -35,21 +31,14 @@ public class MemberService {
     public boolean isExistsId(String userId) {
         return memberMapper.isExistsId(userId);
     }
-
-
-//    public List<Member> findAll() {
-//        return new ArrayList<>(store.values());
-//    }
-
-//    public void findAll() {
-//         memberMapper.selectMember();
-//    }
-
-
     public Member findByLoginId(String loginId) {
         return memberMapper.findMemberById(loginId);
     }
 
+
+    public void DeleteMember(Long id) {
+        memberMapper.deleteMember(id);
+    }
 
 
     public void encryptMember(Member member) {

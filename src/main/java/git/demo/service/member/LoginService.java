@@ -2,6 +2,7 @@ package git.demo.service.member;
 
 import git.demo.domain.member.Member;
 import git.demo.mapper.MemberMapper;
+import git.demo.util.PasswordEncrypt;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,17 +13,12 @@ public class LoginService {
 
     private final MemberMapper memberMapper;
 
-//    public Member login(String loginId, String loginPw) {
-//        return memberRepository.findByLoginId(loginId)
-//                .filter(m -> m.getUserPw().equals(loginPw))
-//                .orElse(null);
-//    }
-
     public Member login(String loginId, String loginPw) {
-        Member memberLoginId = memberMapper.findMemberById(loginId);
-        System.out.println("memberLoginId =" + memberLoginId);
-        return memberLoginId;
+        Member memberLogin = memberMapper.findMemberById(loginId);
+        if(PasswordEncrypt.isMatch(loginPw, memberLogin.getUserPw())) {
+            return memberLogin;
+        }
+        return null;
     }
-
 
 }

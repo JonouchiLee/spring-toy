@@ -68,12 +68,19 @@ public class LoginController {
         return "redirect:/";
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logoutMember(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
         return "redirect:/";
+    }
+
+
+    @GetMapping("/member/findIdAndPw")
+    public String forwardFindId(Model model) {
+        model.addAttribute("member", new Member());
+        return "member/findIdAndPw";
     }
 }
