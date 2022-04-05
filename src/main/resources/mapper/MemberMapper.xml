@@ -11,8 +11,10 @@
 
     <resultMap id="memberDTO" type="git.demo.domain.member.Member">
         <result property="id" column="id"/>
+        <result property="userName" column="username"/>
         <result property="userId" column="userid"/>
         <result property="userPw" column="pw"/>
+        <result property="userEmail" column="email"/>
     </resultMap>
 
 <!--    <select id="findLoginId" resultMap="memberDTO">-->
@@ -21,17 +23,22 @@
 <!--    </select>-->
 
     <select id="findMemberById" resultMap="memberDTO">
-        select id, userid, pw from member
+        select id, username, userid, pw, email from member
         where userid= #{loginId}
     </select>
 
 
     <insert id="insertMember" parameterType="git.demo.domain.member.Member" >
-        INSERT INTO MEMBER(id,userid,pw)
-        VALUES(#{id}, #{userId}, #{userPw})
+            INSERT INTO member(id,username,userid,pw,email)
+            values(#{id}, #{userName}, #{userId}, #{userPw}, #{userEmail})
     </insert>
 
     <select id="isExistsId" resultType="boolean">
         SELECT EXISTS(select userid from member where userid= #{userId})
     </select>
+
+    <delete id="deleteMember" parameterType="Long">
+        DELETE FROM MEMBER
+        WHERE id=#{id}
+    </delete>
 </mapper>

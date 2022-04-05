@@ -8,9 +8,13 @@ import javax.validation.constraints.NotEmpty;
 public class Member {
 
     private Long id;
-
+    @NotEmpty
+    private String userName;
     @NotEmpty
     private String userId;
     @NotEmpty(message = "비밀번호를 입력해주세요")
     private String userPw;
+    @NotEmpty
+    private String userEmail;
+
 }
