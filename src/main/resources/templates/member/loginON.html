@@ -1,21 +1,233 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>로그인</title>
-</head>
-<body>
-<div>
-    <h2>메인</h2>
-        <div>
-            <h3 th:text="|로그인: ${member.userId}|">로그인한 ID</h3>
-        </div>
-    <button onclick="location.href='/file/upload'" type="submit">파일업로드</button>
-    <button onclick="location.href='/book/controlBook'" type="submit">책 관리</button>
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="kr">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>로그인</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div>-->
+<!--    <h2>메인</h2>-->
+<!--        <div>-->
+<!--            <h3 th:text="|로그인: ${member.userId}|">로그인한 ID</h3>-->
+<!--        </div>-->
+<!--    <button onclick="location.href='/file/upload'" type="submit">파일업로드</button>-->
+<!--    <button onclick="location.href='/book/controlBook'" type="submit">책 관리</button>-->
 
-    <form th:action="logout" method="post">
-        <button onclick="location.href='index.html'" type="submit">로그아웃</button>
-        </form>
+<!--    <form th:action="logout" method="post">-->
+<!--        <button onclick="location.href='index.html'" type="submit">로그아웃</button>-->
+<!--        </form>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://thymeleaf.org" lang="kr">
+<head th:replace="fragments/header::header">
+    <title></title>
+
+</head>
+
+<body>
+<nav th:replace="fragments/loginNav :: nav"></nav>
+
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light" id="mainNav">
+</nav>
+
+
+<div th:replace="fragments/bodyHeader :: header"></div>
+
+
+<form th:object="${bookSearch}" method="get" action="bookSearch">
+    <!--    <input type="text" th:field="*{BookName}" placeholder="찾고싶은 도서를 검색해보세요">-->
+    <div id="searchContainer">
+        <input id="searchBar" type="text" placeholder="도서를 검색해보세요">
+        <button id="searchButton">
+            <i class="fas fa-search fa-lg"></i>
+            &nbsp;&nbsp;
+            검색
+        </button>
+    </div>
+
+
+    <!-- <button type="submit">검색</button>
+    <button th:onclick="|location.href='@{/book/bookSearch/}'|" type="button"></button> -->
+
+
+    <article>
+
+        <br/><br/>
+
+        <section>
+            <article>
+                <div id="container">
+
+                    <div id="portfolio"></div>
+
+                    <ul id="portfolio-item">
+                        // 조회순
+                        <li><img src="images/토비의스프링.jpg" alt="정형일"/></li>
+                        <li><img src="images/jpabook.jpg" alt="김영곤"/></li>
+                        <li><img src="images/realmysql.jpg" alt="오일권"/></li>
+                        <li><img src="images/factofobject.jpg" alt="정기혁"/></li>
+                        <li><img src="images/pirates_teaser.jpeg" alt="정형일"/></li>
+                        <li><img src="/images/rustler_teaser.jpeg" alt="정형일"/></li>
+                        <li><img src="/images/satellite_teaser.jpeg" alt="정형일"/></li>
+                        <li><img src="/images/werewolf_teaser.jpeg" alt="정형일"/></li>
+
+
+                        // 최신순
+                        <li><img src="/images/box_socks_teaser.jpeg" alt="Box Socks"/></li>
+                        <li><img src="/images/capt_kidd_teaser.jpeg" alt="Capt Kidd"/></li>
+                        <li><img src="/images/bat_bedtime_teaser.jpeg" alt="Bat Bedtime"/></li>
+                        <li><img src="/images/grrr_teaser.jpeg" alt="Grrr"/></li>
+                        <li><img src="/images/eensy_teaser.jpeg" alt="Eensy"/></li>
+                        <li><img src="/images/derby_lady_teaser.jpeg" alt="Derby Lady"/></li>
+                        <li><img src="/images/carrot_teaser.jpeg" alt="Carrot"/></li>
+                        <li><img src="/images/brush_teaser.jpeg" alt="Brush"/></li>
+
+
+                    </ul>
+                    <nav id="navigation">
+                        <a href="#1" class="nav selected" data-page="1"><font size="5px"
+                                                                              face="'Nanum Gothic', sans-serif"
+                                                                              color="black">조회순</font></a>
+                        <a href="#2" class="nav" data-page="2"><font size="5px" face="'Nanum Gothic', sans-serif"
+                                                                     color="black">최신순</font></a>
+
+                    </nav>
+
+                </div>
+
+                <!-- <script>!window.jQuery && document.write(unescape('%3Cscript src="/js/jquery-1.7.2.min.js"%3E%3C/script%3E'))</script>
+                <script> if (!Modernizr.csstransforms3d) document.getElementById('information').style.display = 'block'; </script>
+                <script src="js/demo.js"></script> -->
+
+
+                <br/><br/>
+
+                <hr style="border: solid 1px #BDBDBD; width: 77%; margin: 0px auto;">
+            </article>
+
+            <article>
+                <!--판매완료-->
+                <br/><br/>
+                <div id="Exchangecomplet">
+                    <font size="20px" face="'Nanum Gothic', sans-serif"
+                          color="black"><strong>모집중인 스터디</strong></font><br/><br/><br/>
+                    <ul>
+                        <li>
+                            <p><img src="images\factofobject.jpg" style="float:left"/><br>
+
+                                <font size="6px" face="'Nanum Gothic', sans-serif" color="black">
+                                    <strong>객체지향의 사실과 오해 스터디구합니다</strong>
+                                </font><br/>
+                                <font size="4px" face="'Nanum Gothic', sans-serif" color="black">
+                                    안녕하세요 책을 완독하기위해 스터디를 개설하게되었습니다 ................
+                                </font>
+                            </p>
+                            <br style="clear:both"/>
+                        </li>
+                        <li>
+                            <p><img src="images\토비의스프링.jpg" style="float:left"/><br>
+
+                                <font size="6px" face="'Nanum Gothic', sans-serif" color="black">
+                                    <strong>토비의 스프링</strong>
+                                </font><br/>
+                                <font size="4px" face="'Nanum Gothic', sans-serif" color="black">
+                                    안녕하세요 책을 완독하기위해 스터디를 개설하게되었습니다
+                                </font>
+                            </p>
+                            <br style="clear:both"/>
+                        </li>
+                    </ul>
+
+                    <br/>
+                    <hr style="border: solid 1px #BDBDBD; width: 100%; margin: 0px auto;">
+                    <br/><br/>
+
+                    <!--후기-->
+                    <font size="20px" face="'Nanum Gothic', sans-serif"
+                          color="black"><strong>후기</strong></font><br/><br/>
+                    <ul>
+                        <li>
+                            <p><br>
+                                <img src="images\dozer_teaser.jpeg" style="float:right"/><br/>
+                                <font size="6px" face="'Nanum Gothic', sans-serif" color="black">
+                                    <strong>코로나 마스크 재고 수량</strong></font><br/>
+                                <font size="4px" face="'Nanum Gothic', sans-serif" color="black">
+                                    아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다
+                                    아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다.
+                                </font>
+                            </p>
+                            <br style="clear:both"/>
+                        </li>
+                        <li>
+                            <p><br>
+                                <img src="images\dozer_teaser.jpeg" style="float:right"/><br/>
+                                <font size="6px" face="'Nanum Gothic', sans-serif" color="black">
+                                    <strong>코로나 마스크 재고 수량</strong><br/>
+                                </font>
+                                <font size="4px" face="'Nanum Gothic', sans-serif" color="black">
+                                    아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다
+                                    아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다. 감사합니다.아이디어 너무 좋습니다.
+                                </font>
+                            </p>
+                            <br style="clear:both"/>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </article>
+        </section>
+    </article>
+</form>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!-- footer(삭제)-->
+
+<div>
+    <footer th:fragment="footer" class="border-top">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center">
+                        <li class="list-inline-item">
+                            <a href="#!">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#!">
+                                        <span class="fa-stack fa-lg">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                        </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="small text-center text-muted fst-italic">Copyright &copy; 2022</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- footer(삭제)-->
+
 </div>
+
 </body>
 </html>
