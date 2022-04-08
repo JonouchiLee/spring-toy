@@ -1,22 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://thymeleaf.org" lang="kr">
+<head th:replace="fragments/header::header">
+    <title></title>
 </head>
 <body>
 
 
-<div class="area">
-    <h5>아이디 및 비밀번호 찾기를 위한 메일이 발송되었습니다.</h5>
-    <p>dudwls0505@naver.com 으로 아이디와 임시 비밀번호가 담긴 메일을 보내드렸습니다.</p>
-    <p>보내드린 메일에 있는 링크를 클릭하면 임시 비밀번호 설정을 위한 화면으로 넘어가게 됩니다.</p>
-    <div class="control-group" style="margin-top:20px;">
-        <div class="controls">
-            <button type="button" class="btn" onclick="window.location.href='/'">메인 페이지로 돌아가기</button>
+<div class="container signUp-container">
+    <div class="signUp-body align-items-center justify-content-center card border-0 shadow-lg ">
+        <div class="text-center">
+            <h2 class="h4 text-gray-900 mb-4 font-weight-bolder">아이디/비밀번호찾기</h2>
         </div>
+        <div class="area">-->
+                <h5>아이디 및 비밀번호 찾기를 위한 메일이 발송되었습니다.</h5>
+                <p> 아이디와 임시 비밀번호가 담긴 메일을 보내드렸습니다.</p>
+                <p>보내드린 메일에 있는 링크를 클릭하면 임시 비밀번호 설정을 위한 화면으로 넘어가게 됩니다.</p>
+        </div>
+
+        <form class="user" id="user" name="user" action="ResetPassword" th:object="${resetPasswordForm}" method="post" >
+
+            <!--            <div th:if="${#fields.hasGlobalErrors()}">-->
+            <!--                <p th:each="err: ${#fields.globalErrors()}" th:text="${err}">글로벌 오류메시지</p>-->
+            <!--            </div>-->
+            <div class="form-group">
+                <label>사용자아이디</label>
+                <div>
+                    <input type="text" name="userId"  th:field="*{userId}" readonly>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>새 비밀번호</label>
+                <div>
+                    <input type="password" name="password" th:field="*{newPassword}"
+                           th:errorclass="field-error" class="em" placeholder="최소6자이상"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>비밀번호 확인</label>
+                <div>
+                    <input type="passwordCheck" name="passwordCheck" th:field="*{newPasswordCheck}"
+                            class="em"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>이메일 인증번호</label>
+                <div>
+                    <input type="authNumber" name="authNumber" th:field="*{mailAuthNumber}"
+                            class="em"/>
+                </div>
+            </div>
+
+            <!--            <div class="field-error" th:errors="*{userPw}">-->
+            <!--                비밀번호 오류-->
+            <!--            </div>-->
+
+            <div class="form-group">
+                <button type="submit">비밀번호 재설정</button>
+            </div>
+
+            <div class="control-group" style="margin-top:20px;">
+                <div class="controls">
+                    <button type="submit" onclick="location.href='/ResetPassword.html'">인증하러가기</button>
+                    <button type="button" class="btn" onclick="window.location.href='/'">메인 페이지로 돌아가기</button>
+                </div>
+            </div>
+        </form>
+
     </div>
 </div>
+
+
+
 
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://thymeleaf.org" lang="kr">
 <head>
     <meta charset="UTF-8">
     <title>책 등록폼</title>
@@ -15,14 +15,18 @@
 <!--    </div>-->
 
     <div>
-        책이름: <input type="text"  th:field="*{bookName}" placeholder="책이름을 입력해주세요">
+        책이름: <label>
+        <input type="text"  th:field="*{bookName}" placeholder="책이름을 입력해주세요">
+    </label>
         <div class="field-error" th:errors="*{bookName}">
             책이름 오류
         </div>
     </div>
 
     <div>
-        가격: <input type="text" th:field="*{price}" placeholder="가격을 입력해주세요">
+        가격: <label>
+        <input type="text" th:field="*{price}" placeholder="가격을 입력해주세요">
+    </label>
         <div class="field-error" th:errors="*{price}">
             가격 오류
         </div>
@@ -30,7 +34,9 @@
 
 
     <div>
-        수량: <input type="text" th:field="*{quantity}" placeholder="수량을 입력해주세요">
+        수량: <label>
+        <input type="text" th:field="*{quantity}" placeholder="수량을 입력해주세요">
+    </label>
         <div class="field-error" th:errors="*{quantity}">
             수량 오류
         </div>

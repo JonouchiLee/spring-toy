@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="kr">
 <head>
     <meta charset="utf-8">
 </head>
 <body>
+<form action="bookDelete" th:action="@{{bookId}(bookId=${book.id})/bookDelete}" th:object="${book}" method="post">
 
     <div>
         책ID<input type="text" value="1" th:value="${book.id}" readonly>
@@ -24,6 +25,8 @@
     <button onclick="location.href='updateBook'" th:onclick="|location.href='@{/book/readBookList/{bookId}/edit(bookId=${book.id})}'|" type="button">상품수정</button>
     <button onclick="location.href='readBookList'" th:onclick="|location.href='@{/book/readBookList}'|" type="button">뒤로가기</button>
 
+    <button type="submit">책 삭제</button>
+    </form>
 
 </body>
 </html>
