@@ -1,9 +1,14 @@
 package git.demo.controller.member;
 
+import git.demo.domain.FindIdForm;
 import git.demo.domain.member.Member;
+import git.demo.domain.member.ResetPasswordForm;
+import git.demo.domain.member.SetUserIdAndMailAuthNum;
 import git.demo.domain.member.login.LoginForm;
+import git.demo.exception.DifferentPasswordException;
 import git.demo.service.member.LoginService;
 import git.demo.service.member.MemberService;
+import git.demo.util.SendEmail;
 import git.demo.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -26,6 +32,9 @@ public class LoginController {
 
     private final LoginService loginService;
     private final MemberService memberService;
+    private final SendEmail sendEmail;
+    private final SetUserIdAndMailAuthNum setUseridAndMailAuthnum;
+
 
     @GetMapping("/")
     public String homeLogin(@SessionAttribute(value = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
@@ -80,7 +89,41 @@ public class LoginController {
 
     @GetMapping("/member/findIdAndPw")
     public String forwardFindId(Model model) {
-        model.addAttribute("member", new Member());
+        model.addAttribute("findIdForm", new FindIdForm());
         return "member/findIdAndPw";
+    }
+
+    @PostMapping("/member/findIdAndPw")
+    public String sendEmail(@Valid @ModelAttribute FindIdForm findIdForm, Model model) {
+        try {
+            String getEmail = memberService.findEmailByName(findIdForm.getFindIdUserName(), findIdForm.getFindIdUserEmail());
+            String setMailAuthNumber = sendEmail.sendMail("회원가입인증", getEmail);
+            setUseridAndMailAuthnum.setMailAuthNumber(setMailAuthNumber);
+            //이름이나 이메일로 유저id알아오기..
+            setUseridAndMailAuthnum.setUserId(memberService.findUserIdByEmail(findIdForm.getFindIdUserEmail()));
+//            model.addAttribute("email", setMailAuthNumber);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+        return "member/finFindIdAndPw";
+    }
+
+    @GetMapping("/member/finFindIdAndPw")
+    public String finSendEmail(Model model) {
+        model.addAttribute("resetPasswordForm", new ResetPasswordForm());
+        return "member/finFindIdAndPw";
+    }
+
+    @PostMapping("/member/finFindIdAndPw")
+    public String findSendEmailPost(@ModelAttribute ResetPasswordForm resetPasswordForm) {
+
+        if (!resetPasswordForm.getNewPassword().equals(resetPasswordForm.getNewPasswordCheck())) {
+            throw new RuntimeException("비밀번호가 일치하지않습니다.");
+        }
+
+        if (resetPasswordForm.getMailAuthNumber().equals(setUseridAndMailAuthnum.getMailAuthNumber())) {
+            resetPasswordForm.setMailAuthNumber(setUseridAndMailAuthnum.getMailAuthNumber());
+        }
+        return "redirect:/";
     }
 }
