@@ -133,20 +133,12 @@ class LoginControllerTest {
 
     /**
      * /logout 테스트
-//     */
+     * //
+     */
 //    @Test
 //    @DisplayName("")
 
 
-    @Test
-    @DisplayName("아이디찾기 페이지로 이동")
-    void FindIdPage() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/member/findIdAndPw"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("findIdForm"))
-                .andExpect(view().name("member/findIdAndPw"));
-    }
 
     /**
      * sendEmail 메소드 테스트
@@ -167,57 +159,6 @@ class LoginControllerTest {
                 .andExpect(view().name("member/finFindIdAndPw"));
     }
 
-//    @Test
-//    @DisplayName("입력한 비밀번호가 맞는지, 이메일인증번호 테스트")
-//    void findSendEmailPost() throws Exception {
-//        resetPasswordForm.setNewPassword("123");
-//        resetPasswordForm.setNewPasswordCheck("1234");
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw"))
-//                        .andDo(print())
-//                .andExpect(
-//                        (result) -> assertTrue(result.getResolvedException()
-//                                .getClass().isAssignableFrom(RuntimeException.class)));
-//
-//        System.out.println(resetPasswordForm.getNewPassword());
-//        System.out.println(resetPasswordForm.getNewPasswordCheck());
-//    }
 
-
-
-//    @Test
-//    @DisplayName("제발..")
-//    void findSendEmailTest() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/member/finFindIdAndPw"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(model().attributeExists("findIdForm"));
-////                .andExpect(model().attributeExists("email"));
-//    }
-
-
-//    @Test
-//    @DisplayName("login 중복회원 테스트")
-//    void LoginCloneLoginFail() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/login"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(model().attributeHasErrors("loginFail"))
-//                .andExpect(model().attributeHasFieldErrors("member", "userId"))
-//                .andExpect(model().attributeHasFieldErrors("member", "userPw"))
-//                .andExpect(view().name("member/join"));
-//
-//    }
-
-//    @Test
-//    @DisplayName("로그인 성공 테스트")
-//    void joinPostTest() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/login")
-//    }
-
-//    @Test
-//    @DisplayName("로그인 실패 테스트")
-//    void joinPostHasErrors() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/join"))
-//    }
 
 }

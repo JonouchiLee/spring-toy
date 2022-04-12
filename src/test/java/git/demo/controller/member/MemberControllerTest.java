@@ -1,42 +1,39 @@
 package git.demo.controller.member;
 
-import git.demo.mapper.BookMapper;
+import git.demo.domain.member.SetUserIdAndMailAuthNum;
 import git.demo.mapper.MemberMapper;
-import git.demo.service.book.BookService;
-import git.demo.service.member.LoginService;
-import git.demo.service.member.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 class MemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @MockBean
-    private BookService bookService;
+    @Autowired
+    MemberMapper memberMapper;
 
-    @MockBean
-    private BookMapper bookMapper;
-
-    @MockBean
-    private LoginService loginService;
-
-    @MockBean
-    private MemberService memberService;
-
-    @MockBean
-    private MemberMapper memberMapper;
+    @Autowired
+    private SetUserIdAndMailAuthNum setUserIdAndMailAuthNum;
+//
+//    @BeforeEach
+//    void setup() {
+//        memberMapper.deleteMember(1L);
+//        memberMapper.deleteMember(2L);
+//        memberMapper.deleteMember(3L);
+//        memberMapper.deleteMember(4L);
+//        memberMapper.deleteMember(5L);
+//    }
 
     @Test
     @DisplayName("회원가입폼으로 포워딩한다")
@@ -49,46 +46,189 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 검증에 성공시 리다이렉트한다")
     void joinPostTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-                .param("userId" , "YoungJin")
-                .param("userPw", "juliet12"))
+                        .param("userName", "김민석")
+                        .param("userId", "kimninsuck")
+                        .param("userPw", "1234")
+                        .param("userEmail", "dudwls0505@nate.com"))
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
     }
 
+
+    @Test
+    @DisplayName("회원가입폼 검증 실패케이스 1. 중복회원 ")
+    void joinForm() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
+                .param("userName", "김민석")
+                .param("userId", "kimninsuck")
+                .param("userPw", "1234")
+                .param("userEmail", "dudwls0505@nate.com"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
+                        .param("userName", "김민석")
+                        .param("userId", "kimninsuck")
+                        .param("userPw", "1234")
+                        .param("userEmail", "dudwls0505@nate.com"))
+                .andExpect(view().name("member/join"));
+    }
+
+
     /**
-     * 바인딩리절트관련 테스트 추가해야된다.
+     * 이메일 중복확인 테스트 해보기
      */
-//    @Test
-//    void joinPostTest_실패() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-//                .param("userId" , "YoungJin")
-//                .param("userPw", "juliet12"));
-//
-//
-//        ResultActions perform2 = mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-//                .param("userId", "YoungJin")
-//                .param("userPw", "juliet12"));
-//
-//        perform2.andExpect(view().name("member/join"));
-//
-//
-//    }
+
+
+    @Test
+    @DisplayName("아이디찾기페이지 테스트")
+    void FindIdPage() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/member/findIdAndPw"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("findIdForm"))
+                .andExpect(view().name("member/findIdAndPw"));
+    }
+
+    @Test
+    @DisplayName("아이디찾기폼 검증성공 ")
+    void FindIdForm_Success() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/findIdAndPw")
+                        .param("findIdUserName", "김민석")
+                        .param("findIdUserEmail", "dudwls0505@nate.com"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("resetPasswordForm"))
+                .andExpect(view().name("member/finFindIdAndPw"));
+    }
+
+    @Test
+    @DisplayName("아이디찾기폼 실패테스트 ")
+    void findIdForm_Fail() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/findIdAndPw"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("findIdForm", "findIdUserName"))
+                .andExpect(model().attributeHasFieldErrors("findIdForm", "findIdUserEmail"))
+                .andExpect(view().name("member/findIdAndPw"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/findIdAndPw")
+                        .param("findIdUserName", "이영진"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("findIdForm", "findIdUserEmail"))
+                .andExpect(view().name("member/findIdAndPw"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/findIdAndPw")
+                        .param("findIdUserEmail", "dudwls0505@nate.com"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("findIdForm", "findIdUserName"))
+                .andExpect(view().name("member/findIdAndPw"));
+    }
+
+    /**
+     * hasErrors : Model에 에러가있는지
+     * attributeHasErrors : attribute에 에러가있냐없냐
+     * attributeHasFieldErrors: 필드에 에러가있는지 확인
+     */
 
 
 //    @Test
-//    void joinPostHasErrors() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/join"))
+//    @DisplayName("비밀번호 재설정폼페이지 테스트")
+//    void pwResetPage() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/member/finFindIdAndPw"))
 //                .andDo(print())
 //                .andExpect(status().isOk())
-//                .andExpect(model().attributeHasErrors("member"))
-//                .andExpect(model().attributeHasFieldErrors("member", "userId"))
-//                .andExpect(model().attributeHasFieldErrors("member", "userPw"))
-//                .andExpect(view().name("member/join"));
+//                .andExpect(view().name("member/finFindIdAndPw"));
 //    }
 
+    @Test
+    @DisplayName("비밀번호 재설정폼페이지 검증성공시")
+    void findSendEmailPost() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                .param("newPassword","1234")
+                .param("newPasswordCheck","1234")
+                .param("mailAuthNumber","1234"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정폼페이지 검증실패테스트 1. bindingResult.hasErrors")
+    void findSendEmailPost_BindingException() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPassword","1234")
+                        .param("newPasswordCheck","1234"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("resetPasswordForm","mailAuthNumber"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/finFindIdAndPw"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPassword","1234")
+                        .param("mailAuthNumber","1234"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("resetPasswordForm","newPasswordCheck"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/finFindIdAndPw"));
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPasswordCheck","1234")
+                        .param("mailAuthNumber","1234"))
+                .andDo(print())
+                .andExpect(model().attributeHasFieldErrors("resetPasswordForm","newPassword"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/finFindIdAndPw"));
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정폼페이지 검증실패테스트 2.비밀번호 불일치")
+    void findSendEmailPost_pwNotMatch() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPassword", "1234")
+                        .param("newPasswordCheck", "123"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/finFindIdAndPw"));
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정폼페이지 검증실패테스트 3.이메일 인증번호 불일치")
+    void findSendEmailPost_emailAuthNotMatch() throws Exception {
+        setUserIdAndMailAuthNum.setMailAuthNumber("5678");
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPassword", "123")
+                        .param("newPasswordCheck", "123")
+                        .param("mailAuthNumber", "123"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("member/finFindIdAndPw"));
+    }
+
+    @Test
+    @DisplayName("비밀번호 재설정폼페이지 검증성공테스트 이메일 인증번호 일치")
+    void findSendEmailPost_emailAuthNotMatch2() throws Exception {
+        setUserIdAndMailAuthNum.setMailAuthNumber("1234");
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+                        .param("newPassword", "123")
+                        .param("newPasswordCheck", "123")
+                        .param("mailAuthNumber", "1234"))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+
+    }
+
+    
 
 
+
+//    @Test
+//    @DisplayName("비밀번호 재설정페이지 검증성공")
+//    void pwResetForm_Success() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
+//                .param(""))
+//    }
 }
