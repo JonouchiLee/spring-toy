@@ -36,17 +36,17 @@ public class MemberController {
     private final FindMemberFormValidator findMemberFormValidator;
     private final ResetPasswordFormValidator resetPasswordFormValidator;
 
-    @InitBinder("joinMemberFormValidator")
+    @InitBinder("member")
     public void initJoinMemberForm(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(joinMemberFormValidator);
     }
 
-    @InitBinder("findMemberFormValidator")
+    @InitBinder("findIdForm")
     public void initFindMemberForm(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(findMemberFormValidator);
     }
 
-    @InitBinder("resetPasswordFormValidator")
+    @InitBinder("resetPasswordForm")
     public void initResetPasswordFormValidator(WebDataBinder webDataBinder) {
         webDataBinder.addValidators(resetPasswordFormValidator);
     }

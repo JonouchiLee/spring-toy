@@ -1,13 +1,16 @@
 package git.demo.controller.member;
 
+import git.demo.domain.member.Member;
 import git.demo.domain.member.SetUserIdAndMailAuthNum;
 import git.demo.mapper.MemberMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,15 +28,11 @@ class MemberControllerTest {
 
     @Autowired
     private SetUserIdAndMailAuthNum setUserIdAndMailAuthNum;
-//
-//    @BeforeEach
-//    void setup() {
-//        memberMapper.deleteMember(1L);
-//        memberMapper.deleteMember(2L);
-//        memberMapper.deleteMember(3L);
-//        memberMapper.deleteMember(4L);
-//        memberMapper.deleteMember(5L);
-//    }
+
+    @BeforeEach
+    void setup() {
+        memberMapper.deleteAll();
+    }
 
     @Test
     @DisplayName("회원가입폼으로 포워딩한다")
@@ -56,6 +55,7 @@ class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
+
     }
 
 
@@ -64,16 +64,18 @@ class MemberControllerTest {
     void joinForm() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
                 .param("userName", "김민석")
-                .param("userId", "kimninsuck")
+                .param("userId", "kimninsuck2")
                 .param("userPw", "1234")
                 .param("userEmail", "dudwls0505@nate.com"));
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-                        .param("userName", "김민석")
-                        .param("userId", "kimninsuck")
-                        .param("userPw", "1234")
-                        .param("userEmail", "dudwls0505@nate.com"))
-                .andExpect(view().name("member/join"));
+        ResultActions perform2 = mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
+                .param("userName", "이영진")
+                .param("userId", "kimninsuck2")
+                .param("userPw", "12345")
+                .param("userEmail", "dudwls0505@natee.com"));
+
+        perform2.andExpect(view().name("member/join"));
+
     }
 
 
@@ -95,6 +97,8 @@ class MemberControllerTest {
     @Test
     @DisplayName("아이디찾기폼 검증성공 ")
     void FindIdForm_Success() throws Exception {
+        memberMapper.insertMember(new Member(1L,"김민석","test","1234","dudwls0505@nate.com"));
+
         mockMvc.perform(MockMvcRequestBuilders.post("/member/findIdAndPw")
                         .param("findIdUserName", "김민석")
                         .param("findIdUserEmail", "dudwls0505@nate.com"))
@@ -145,6 +149,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("비밀번호 재설정폼페이지 검증성공시")
     void findSendEmailPost() throws Exception {
+        setUserIdAndMailAuthNum.setMailAuthNumber("1234");
         mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
                 .param("newPassword","1234")
                 .param("newPasswordCheck","1234")
@@ -152,6 +157,7 @@ class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/"));
+
     }
 
     @Test
@@ -187,7 +193,8 @@ class MemberControllerTest {
     void findSendEmailPost_pwNotMatch() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
                         .param("newPassword", "1234")
-                        .param("newPasswordCheck", "123"))
+                        .param("newPasswordCheck", "123")
+                        .param("mailAuthNumber","123"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("member/finFindIdAndPw"));
@@ -207,19 +214,7 @@ class MemberControllerTest {
                 .andExpect(view().name("member/finFindIdAndPw"));
     }
 
-    @Test
-    @DisplayName("비밀번호 재설정폼페이지 검증성공테스트 이메일 인증번호 일치")
-    void findSendEmailPost_emailAuthNotMatch2() throws Exception {
-        setUserIdAndMailAuthNum.setMailAuthNumber("1234");
-        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
-                        .param("newPassword", "123")
-                        .param("newPasswordCheck", "123")
-                        .param("mailAuthNumber", "1234"))
-                .andDo(print())
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
 
-    }
 
     
 

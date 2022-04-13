@@ -16,5 +16,13 @@ public class FindMemberFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         FindIdForm findIdForm = (FindIdForm) target;
 
+        if (findIdForm.getFindIdUserName() == null) {
+            errors.rejectValue("findIdUserName","notnull","이름을 입력해주세요");
+        }
+
+        if (findIdForm.getFindIdUserEmail() == null) {
+            errors.rejectValue("findIdUserEmail","notnull","이메일을 입력해주세요");
+        }
+
     }
 }
