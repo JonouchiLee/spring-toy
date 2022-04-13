@@ -75,6 +75,17 @@ class MemberControllerTest {
                 .param("userEmail", "dudwls0505@natee.com"));
 
         perform2.andExpect(view().name("member/join"));
+    }
+
+    @Test
+    @DisplayName("회원가입폼 검증 실패케이스 2. BindingResult ")
+    void joinFormFail_BindingError() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
+                .param("userName", "김민석")
+                .param("userId", "kimninsuck2")
+                .param("userEmail","dudwls0505@gmail.com"))
+                .andDo(print())
+                .andExpect(model().hasErrors());
 
     }
 
