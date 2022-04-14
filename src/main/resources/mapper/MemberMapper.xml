@@ -2,7 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+
 <mapper namespace="git.demo.mapper.MemberMapper">
+
+
 
 <!--    <select id="findLoginId" parameterType="map" resultType="git.demo.domain.member.Member">-->
 <!--        select id, userid, pw from member-->
@@ -28,6 +31,7 @@
     </select>
 
 
+
     <insert id="insertMember" parameterType="git.demo.domain.member.Member" >
             INSERT INTO member(id,username,userid,pw,email)
             values(#{id}, #{userName}, #{userId}, #{userPw}, #{userEmail})
@@ -37,8 +41,32 @@
         SELECT EXISTS(select userid from member where userid= #{userId})
     </select>
 
+    <update id="updateUserPassword" parameterType="String">
+        UPDATE member SET pw = #{newPassword}
+        WHERE userid= #{userId}
+    </update>
+
+    <select id="findEmailByName" resultType="String">
+        SELECT email from member
+        WHERE username= #{userName} and email=#{getUserEmail}
+    </select>
+
+    <select id="findUseridByEmail" resultType="String">
+        SELECT userid from member
+        WHERE  email=#{email}
+    </select>
+
+    <select id="findPwByUserId" resultType="String">
+        SELECT pw from member
+        WHERE userid=#{userId}
+    </select>
+
     <delete id="deleteMember" parameterType="Long">
         DELETE FROM MEMBER
         WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM MEMBER
     </delete>
 </mapper>

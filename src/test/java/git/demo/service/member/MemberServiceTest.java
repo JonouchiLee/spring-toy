@@ -3,6 +3,7 @@ package git.demo.service.member;
 import git.demo.domain.member.Member;
 import git.demo.exception.DuplicateIdException;
 import git.demo.mapper.MemberMapper;
+import git.demo.util.PasswordEncrypt;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +63,7 @@ class MemberServiceTest {
     @Order(3)
     void newPasswordTest() {
         memberService.update("testtest","dudwls1234");
-        assertThat(member.getUserPw()).isEqualTo("dudwls1234");
+        assertThat(PasswordEncrypt.isMatch("dudwls1234",memberMapper.findPwByUserId("testtest"))).isTrue();
     }
 
 

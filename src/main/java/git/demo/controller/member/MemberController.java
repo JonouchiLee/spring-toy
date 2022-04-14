@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,24 +33,7 @@ public class MemberController {
     private final SendEmail sendEmail;
     private final MemberMapper memberMapper;
     private final SetUserIdAndMailAuthNum setUseridAndMailAuthnum;
-    private final JoinMemberFormValidator joinMemberFormValidator;
-    private final FindMemberFormValidator findMemberFormValidator;
-    private final ResetPasswordFormValidator resetPasswordFormValidator;
 
-    @InitBinder("member")
-    public void initJoinMemberForm(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(joinMemberFormValidator);
-    }
-
-    @InitBinder("findIdForm")
-    public void initFindMemberForm(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(findMemberFormValidator);
-    }
-
-    @InitBinder("resetPasswordForm")
-    public void initResetPasswordFormValidator(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(resetPasswordFormValidator);
-    }
 
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
@@ -83,6 +67,8 @@ public class MemberController {
             log.info("errors={}", bindingResult);
             return "member/findIdAndPw";
         }
+
+
         // 검증성공
         String getEmail = null;
         try {
@@ -115,13 +101,17 @@ public class MemberController {
 
         //검증실패시2 : 비밀번호 불일치
         if (!resetPasswordForm.getNewPassword().equals(resetPasswordForm.getNewPasswordCheck())) {
+            bindingResult.reject("pwNotMatch","새 비밀번호가 일치하지 않습니다.");
             return "member/finFindIdAndPw";
         }
 
         //검증실패시3: 이메일인증번호 불일치시
         if (!resetPasswordForm.getMailAuthNumber().equals(setUseridAndMailAuthnum.getMailAuthNumber())) {
+            bindingResult.reject("emailAuthNotMatch","이메일 인증번호가 일치하지 않습니다.");
             return "member/finFindIdAndPw";
         }
+
+        memberService.update(resetPasswordForm.getUserId(), resetPasswordForm.getNewPassword());
         return "redirect:/";
     }
 

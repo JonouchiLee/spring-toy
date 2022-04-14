@@ -19,13 +19,17 @@ public class MemberService {
 
 
     public Member save(Member member)  {
-//        if(isExistsId(member.getUserId())){
-//            throw new DuplicateIdException("이미 존재하는 아이디입니다."+ member.getUserId());
-//        }
+        if(isExistsId(member.getUserId())){
+            throw new DuplicateIdException("이미 존재하는 아이디입니다."+ member.getUserId());
+        }
         encryptMember(member);
         System.out.println("MemberService로 넘어오는 member" + member);
         memberMapper.insertMember(member);
         return member;
+    }
+
+    public void update(String userId , String newPassword) {
+        memberMapper.updateUserPassword(userId,PasswordEncrypt.encrypt(newPassword));
     }
 
     public boolean isExistsId(String userId) {
@@ -52,5 +56,9 @@ public class MemberService {
 
     public String findUserIdByEmail(String email) {
         return memberMapper.findUseridByEmail(email);
+    }
+
+    public String findPwByUserId(String userId) {
+        return memberMapper.findPwByUserId(userId);
     }
 }
