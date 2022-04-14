@@ -12,4 +12,15 @@ public interface MemberMapper {
     void insertMember(Member member);
     Member findMemberById(String loginId);
     void deleteMember(Long id);
+
+    void updateUserPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
+
+    String findEmailByName(@Param("userName") String userName,@Param("getUserEmail") String getUserEmail);
+
+    String findUseridByEmail(String email);
+
+    String findPwByUserId(String userId);
+
+    void deleteAll();
+
 }
