@@ -7,19 +7,21 @@
 <form action="bookDelete" th:action="@{{bookId}(bookId=${book.id})/bookDelete}" th:object="${book}" method="post">
 
     <div>
-        책ID<input type="text" value="1" th:value="${book.id}" readonly>
+    <label>책ID
+        <input type="text" name="id" th:value="${book.id}" th:field="*{id}"  th:errorclass="field-error" readonly>
+    </label>
     </div>
 
     <div>
-        책이름<input type="text" value="책1" th:value="${book.bookName}" readonly>
+        책이름<input type="text" value="책1" th:field="*{bookName}" th:value="${book.bookName}" readonly>
     </div>
 
     <div>
-        책가격<input type="text" value="1000" th:value="${book.price}" readonly>
+        책가격<input type="text" value="1000" th:field="*{price}"th:value="${book.price}" readonly>
     </div>
 
     <div>
-        책수량<input type="text" value="10" th:value="${book.quantity}" readonly>
+        책수량<input type="text" value="10" th:field="*{quantity}" th:value="${book.quantity}" readonly>
     </div>
 
     <button onclick="location.href='updateBook'" th:onclick="|location.href='@{/book/readBookList/{bookId}/edit(bookId=${book.id})}'|" type="button">상품수정</button>

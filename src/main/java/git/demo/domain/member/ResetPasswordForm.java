@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 public class ResetPasswordForm {
 
 
-    @NotEmpty
+    @NotBlank
     private String userId;
 
     @Pattern(regexp ="^(?=.*[a-zA-Z]{1,20})(?=.*[0-9])(?=.*[~!@#$%^&*()-=+]).{8,20}$",message = "영문은 필수로 포함해주세요")

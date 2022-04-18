@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,12 +32,13 @@ public class BookController {
 
 
     @GetMapping("/createBook")
-    public String insertBookForm(@ModelAttribute Book book) {
+    public String insertBookForm(Model model) {
+        model.addAttribute("book", new Book());
         return "book/createBook";
     }
 
     @PostMapping("/createBook")
-    public String insertBook(@Valid @ModelAttribute Book book, BindingResult bindingResult) {
+    public String insertBook(@Validated @ModelAttribute Book book, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
@@ -50,10 +52,8 @@ public class BookController {
 
     @GetMapping("/readBookList")
     public String readBookPage(Model model) {
-        log.info("readBookPage GetMapping 실행");
         List<Book> books = bookMapper.findAllBook();
         model.addAttribute("books", books);
-        System.out.println("books=" + books);
         return "book/readBookList";
     }
 
@@ -67,17 +67,17 @@ public class BookController {
     }
 
 
-
-    @GetMapping("/readBookList/{bookId}/edit")
-    public String editBook(@PathVariable Long bookId, Model model) {
-        Book book = bookMapper.findBookById(bookId);
-        model.addAttribute("book", book);
-        log.info("editBook getMapping 성공 그리고 book 값 = " + book);
-        return "book/updateBook";
-    }
+//
+//    @GetMapping("/readBookList/{bookId}/edit")
+//    public String editBook(@PathVariable Long bookId, Model model) {
+//        Book book = bookMapper.findBookById(bookId);
+//        model.addAttribute("book", book);
+//        log.info("editBook getMapping 성공 그리고 book 값 = " + book);
+//        return "book/updateBook";
+//    }
 
     @PostMapping("/readBookList/{bookId}/updateBookFin")
-    public String editBookPost(@PathVariable Long bookId, @Valid @ModelAttribute Book book, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String editBookPost(@PathVariable Long bookId, @Validated @ModelAttribute Book book, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // 값을 DB에 넣어야함
         bookMapper.updateBook(book.getId(), book.getBookName(), book.getPrice(), book.getQuantity());
         System.out.println("bookget정보들=" + book.getId()+book.getBookName()+book.getPrice()+book.getQuantity());

@@ -11,11 +11,14 @@ import git.demo.service.member.LoginService;
 import git.demo.service.member.MemberService;
 import git.demo.util.SendEmail;
 import git.demo.web.session.SessionConst;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -27,45 +30,32 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(LoginController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class LoginControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @MockBean
-    private BookService bookService;
+    @Autowired
+    MemberMapper memberMapper;
 
-    @MockBean
-    private BookMapper bookMapper;
-
-    @MockBean
-    private LoginService loginService;
-
-    @MockBean
-    private MemberService memberService;
-
-    @MockBean
-    private MemberMapper memberMapper;
-
-    @MockBean
-    private SendEmail sendEmail;
-
-    @MockBean
-            private SetUserIdAndMailAuthNum setUserIdAndMailAuthNum;
+    @Autowired
+    MemberService memberService;
 
     Member member;
-    @MockBean
-    ResetPasswordForm resetPasswordForm;
+
 
     @BeforeEach
     void sessionSetup() {
+        memberMapper.deleteAll();
+
         member = new Member();
-        member.setUserId("test");
+        member.setUserEmail("dudwls0505@naver.com");
+        member.setUserId("testEx");
         member.setId(1L);
-        member.setUserPw("1234");
-
-
+        member.setUserPw("juliet1225");
+        member.setUserName("이영진");
     }
 
 
@@ -105,25 +95,24 @@ class LoginControllerTest {
     }
 
 
-    /**
-     * chkResult때문에 안됨...나중에 해결하기
-     */
     @Test
-    @DisplayName("loginMember Bindresult가없으면 리다이렉트한다.")
+    @DisplayName("로그인 검증성공")
     void loginMemberTest() throws Exception {
-        Member chkResult = member;
+        memberService.save(member);
+
         mockMvc.perform(MockMvcRequestBuilders.post("/member/login")
-                        .param("loginId", "test")
-                        .param("loginPw", "1234"))
+                        .param("loginId", "testEX")
+                        .param("loginPw", "juliet1225"))
                 .andDo(print())
+                .andExpect(request().sessionAttribute(SessionConst.LOGIN_MEMBER, notNullValue()))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(model().hasNoErrors())
                 .andExpect(view().name("redirect:/"));
     }
 
     @Test
-    @DisplayName("loginMember BindResult가있으면 login페이지로 간다")
-    void loginMember_실패() throws Exception {
+    @DisplayName("로그인 검증실패 : loginMember BindingResult가있으면 login페이지로 간다")
+    void loginMember_fail() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/member/login"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -132,32 +121,49 @@ class LoginControllerTest {
     }
 
     /**
-     * /logout 테스트
+     * 로긴서비스에 예외처리 한후 테스트해보기
+     */
+
+//    @Test
+//    @DisplayName("로그인 검증실패2: 존재하지않는 회원으로 로그인하면 login페이지로 간다")
+//    void loginMember_fail2() throws Exception {
+//        memberService.save(member);
+//
+//        mockMvc.perform(MockMvcRequestBuilders.post("/member/login")
+//                .param("loginId", "test12345")
+//                .param("loginPw", "juliet4567"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(model().hasErrors())
+//                .andExpect(view().name("member/login"));
+//    }
+
+    /**
+     * /logout 테스트..
      * //
      */
 //    @Test
-//    @DisplayName("")
-
-
-
-    /**
-     * sendEmail 메소드 테스트
-     */
-//    @Test
-//    @DisplayName("")
-//    void sendEmailTest() {
-//
+//    @DisplayName("로그아웃 테스트: 세션있으면 해제시킨다")
+//    void logout_ok() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/logout")
+//                        .sessionAttr("loginMember", member))
+//                .andDo(print())
+//                .andExpect(request().sessionAttribute(SessionConst.LOGIN_MEMBER, notNullValue()))
+//                .andExpect(status().is3xxRedirection())
+//                .andExpect(view().name("redirect:/"));
 //    }
 
-    @Test
-    @DisplayName("비밀번호 재설정페이지로 이동")
-    void finSendmail() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/member/finFindIdAndPw"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("resetPasswordForm"))
-                .andExpect(view().name("member/finFindIdAndPw"));
-    }
+
+
+//    @Test
+//    @DisplayName("비밀번호 재설정페이지로 이동")
+//    void finSendmail() throws Exception {
+//        mockMvc.perform(MockMvcRequestBuilders.get("/member/finFindIdAndPw"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(model().attributeExists("resetPasswordForm"))
+//                .andExpect(view().name("member/finFindIdAndPw"));
+//    }
 
 
 

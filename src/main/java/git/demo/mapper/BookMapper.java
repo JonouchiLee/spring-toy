@@ -21,4 +21,6 @@ public interface BookMapper {
 
     void deleteBook(Long bookId);
 
+    void deleteAllBook();
+
 }

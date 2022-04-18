@@ -12,7 +12,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -22,36 +24,35 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest
+@SpringBootTest
+@AutoConfigureMockMvc
 class BookControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
-    @MockBean
+    @Autowired
     BookMapper bookMapper;
-    @MockBean
-    BookService bookService;
-    @MockBean
-    LoginService loginService;
-    @MockBean
-    LoginController loginController;
-    @MockBean
-    MemberService memberService;
-    @MockBean
-    MemberMapper memberMapper;
 
     Member member;
+    Book book;
+
 
     @BeforeEach
     void sessionSetup(){
+        bookMapper.deleteAllBook();
         member = new Member();
         member.setUserId("test");
         member.setId(1L);
         member.setUserPw("1234");
+
+        book = new Book();
+        book.setId(1L);
+        book.setBookName("균형의수호자");
+        book.setPrice(10000);
+        book.setQuantity(10);
+        bookMapper.insertBook(book);
     }
-
-
 
 
     @Test
@@ -68,7 +69,7 @@ class BookControllerTest {
     @Test
     @DisplayName("북추가페이지 포워딩한다")
     void createBookPageTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/book/createBook")
+        mockMvc.perform(MockMvcRequestBuilders.get( "/book/createBook")
         .sessionAttr("loginMember",member))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -90,6 +91,7 @@ class BookControllerTest {
     @Test
     @DisplayName("Book값이 제대로 입력되면 리다이렉트한다")
     void insertBookTestSuccess() throws Exception {
+        bookMapper.deleteAllBook();
         mockMvc.perform(MockMvcRequestBuilders.post("/book/createBook")
         .sessionAttr("loginMember", member)
                 .param("id", String.valueOf(3L))
@@ -102,7 +104,7 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("")
+    @DisplayName("readBookList페이지 포워딩 ")
     void readBookPageTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/book/readBookList")
         .sessionAttr("loginMember",member))
@@ -113,15 +115,25 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("BookList PathVariable 확인")
+    @DisplayName("BookList 상세정보 확인하기")
     void readBookDetailTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/book/BookDetail/1")
         .sessionAttr("loginMember",member))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("bookId").value(1))
                 .andExpect(view().name("book/BookDetail"))
                 .andExpect(model().attributeExists("book"));
+    }
+
+
+    @Test
+    @DisplayName("updateBookFin")
+    void updateBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/book/readBookList/1/updateBookFin")
+                        .sessionAttr("loginMember",member))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/book/readBookList"));
     }
 
 

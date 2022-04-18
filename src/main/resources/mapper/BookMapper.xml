@@ -38,6 +38,10 @@
         DELETE FROM BOOK WHERE ID=#{bookId}
     </delete>
 
+    <delete id="deleteAllBook">
+        DELETE FROM BOOK
+    </delete>
+
 
 
 </mapper>
