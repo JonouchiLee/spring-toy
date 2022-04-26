@@ -2,6 +2,8 @@
 <html xmlns:th="http://thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://thymeleaf.org" lang="kr">
 <head th:replace="fragments/header::header">
+    <title></title>
+
 </head>
 
 <body>
@@ -25,9 +27,12 @@
         </button>
     </div>
 
+</form>
 
-    <!-- <button type="submit">검색</button>
-    <button th:onclick="|location.href='@{/book/bookSearch/}'|" type="button"></button> -->
+
+
+<!-- <button type="submit">검색</button>
+<button th:onclick="|location.href='@{/book/bookSearch/}'|" type="button"></button> -->
 
 
     <article>
@@ -84,6 +89,109 @@
 
                 <hr style="border: solid 1px #BDBDBD; width: 77%; margin: 0px auto;">
             </article>
+
+            <div class="row">
+                <form action="Jjim" th:action="Jjim" th:object="${study}" method="post">
+                <div class="col">
+                    <div class="card" style="width: 18rem;">
+                        <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FZTiwa%2FbtrndrBl0sd%2F338v4OK9lv6086z4liGjV0%2Fimg.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <input type="hidden" th:value="${study.studyId}" th:field="*{studyId}">
+                            <h5 class="card-title"  th:value="${study.name}" th:field="*{name}">토비의스프링 스터디원 모집합니다</h5>
+                            <a th:onclick="|location.href=`@{/study/studyInfo/{studyId}(studyId=${study.studyId})}`|"  class="btn btn-primary">스터디 상세보기</a>
+                            <button class="Jjim-study-btn" type="submit">스터디 찜하기</button>
+                        </div>
+                    </div>
+                </div>
+                </form>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+
+                    <div class="card" style="width: 18rem;">
+                        <img src="..." class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
 
             <article>
                 <!--판매완료-->
@@ -156,52 +264,8 @@
             </article>
         </section>
     </article>
-</form>
 
 <div th:replace="fragments/footer :: footer"></div>
-
-<!-- footer(삭제)-->
-
-<div>
-    <footer th:fragment="footer" class="border-top">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <ul class="list-inline text-center">
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#!">
-                                        <span class="fa-stack fa-lg">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                                        </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="small text-center text-muted fst-italic">Copyright &copy; 2022</div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- footer(삭제)-->
-
-</div>
 
 </body>
 </html>

@@ -18,8 +18,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/","/member/join","/member/login","/logout","/bootstrap/css/**","/bootstrap/assets/img/**",
-                        "/error", "/file/upload" , "/error-*", "/api/members/**", "/book/**", "/*.ico","/bookSearch"
-                        );
+                        "/error", "/file/upload" , "/error-*", "/api/members/**",
+                        "/book/**", "/*.ico","/bookSearch", "/images/*.jpg","/images/*.jpeg",
+                        "/member/bootstrap/css/*.css","/member/login/findIdAndPw","/member/findIdAndPw"
+                ,"/member/**", "/Jjim");
 
 
         registry.addInterceptor(new FileInterceptor())
