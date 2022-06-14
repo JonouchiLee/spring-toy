@@ -24,12 +24,10 @@ public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
 
-
     @GetMapping("/controlBook")
     public String controlBookPage() {
         return "book/controlBook";
     }
-
 
     @GetMapping("/createBook")
     public String insertBookForm(Model model) {
@@ -39,15 +37,12 @@ public class BookController {
 
     @PostMapping("/createBook")
     public String insertBook(@Validated @ModelAttribute Book book, BindingResult bindingResult) {
-
         if (bindingResult.hasErrors()) {
             log.info("errors={}", bindingResult);
             return "book/createBook";
         }
-
         bookService.save(book);
         return "redirect:/";
-
     }
 
     @GetMapping("/readBookList")
@@ -57,7 +52,6 @@ public class BookController {
         return "book/readBookList";
     }
 
-
     @GetMapping("/BookDetail/{bookId}")
     public String readBookDetail(@PathVariable Long bookId, Model model) {
         Book book = bookMapper.findBookById(bookId);
@@ -66,27 +60,14 @@ public class BookController {
         return "book/BookDetail";
     }
 
-
-//
-//    @GetMapping("/readBookList/{bookId}/edit")
-//    public String editBook(@PathVariable Long bookId, Model model) {
-//        Book book = bookMapper.findBookById(bookId);
-//        model.addAttribute("book", book);
-//        log.info("editBook getMapping 성공 그리고 book 값 = " + book);
-//        return "book/updateBook";
-//    }
-
     @PostMapping("/readBookList/{bookId}/updateBookFin")
     public String editBookPost(@PathVariable Long bookId, @Validated @ModelAttribute Book book, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         // 값을 DB에 넣어야함
         bookMapper.updateBook(book.getId(), book.getBookName(), book.getPrice(), book.getQuantity());
-        System.out.println("bookget정보들=" + book.getId()+book.getBookName()+book.getPrice()+book.getQuantity());
         log.info("수정완료 ");
         redirectAttributes.addAttribute("status", true);
         return "redirect:/book/readBookList";
     }
-
-
 
     @PostMapping("/BookDetail/{bookId}/bookDelete")
     public String deleteBookGet(@PathVariable Long bookId) {
@@ -95,9 +76,4 @@ public class BookController {
         log.info("deleteBook 성공");
         return "redirect:/book/readBookList";
     }
-
-
-
-
-
 }

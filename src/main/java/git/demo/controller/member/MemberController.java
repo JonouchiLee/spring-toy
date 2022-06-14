@@ -1,28 +1,20 @@
 package git.demo.controller.member;
 
-import git.demo.controller.validator.FindMemberFormValidator;
-import git.demo.controller.validator.JoinMemberFormValidator;
-import git.demo.controller.validator.ResetPasswordFormValidator;
 import git.demo.domain.FindIdForm;
 import git.demo.domain.member.Member;
 import git.demo.domain.member.ResetPasswordForm;
 import git.demo.domain.member.SetUserIdAndMailAuthNum;
 import git.demo.mapper.MemberMapper;
 import git.demo.service.member.MemberService;
-import git.demo.test.MockAddress;
 import git.demo.util.SendEmail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.util.Arrays;
 
 @Slf4j
 @Controller
@@ -33,7 +25,6 @@ public class MemberController {
     private final SendEmail sendEmail;
     private final MemberMapper memberMapper;
     private final SetUserIdAndMailAuthNum setUseridAndMailAuthnum;
-
 
     @GetMapping("member/join")
     public String joinMemberForm(Model model) {
@@ -67,7 +58,6 @@ public class MemberController {
             log.info("errors={}", bindingResult);
             return "member/findIdAndPw";
         }
-
 
         // 검증성공
         String getEmail = null;
@@ -114,6 +104,4 @@ public class MemberController {
         memberService.update(resetPasswordForm.getUserId(), resetPasswordForm.getNewPassword());
         return "redirect:/";
     }
-
-
 }

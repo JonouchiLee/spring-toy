@@ -35,7 +35,6 @@ public class LoginController {
         return "member/loginON";
     }
 
-
     @GetMapping("member/login")
     public String loginMemberForm(Model model) {
         model.addAttribute("loginForm", new LoginForm());
@@ -49,14 +48,11 @@ public class LoginController {
             log.info("errors={}", bindingResult);
             return "member/login";
         }
-
         Member chkResult = loginService.login(loginForm.getLoginId(), loginForm.getLoginPw());
-
         if (chkResult == null) {
             bindingResult.reject("loginFail", "아이디 혹은 비밀번호가 맞지 않습니다.");
             return "member/login";
         }
-
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, chkResult);
         return "redirect:/";
@@ -70,5 +66,4 @@ public class LoginController {
         }
         return "redirect:/";
     }
-
 }

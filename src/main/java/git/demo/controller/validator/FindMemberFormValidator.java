@@ -23,6 +23,5 @@ public class FindMemberFormValidator implements Validator {
         if (findIdForm.getFindIdUserEmail() == null) {
             errors.rejectValue("findIdUserEmail","notnull","이메일을 입력해주세요");
         }
-
     }
 }

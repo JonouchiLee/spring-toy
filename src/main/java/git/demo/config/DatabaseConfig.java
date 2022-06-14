@@ -25,7 +25,6 @@ public class DatabaseConfig {
         sqlSessionFactoryBean.setDataSource(dataSource);
 
         sqlSessionFactoryBean.setMapperLocations(applicationContext.getResources("classpath:/mapper/**/*.xml"));
-//        sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:/mybatis/mybatis-config.xml"));
         return sqlSessionFactoryBean.getObject();
     }
 
@@ -33,6 +32,4 @@ public class DatabaseConfig {
     public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
         return new SqlSessionTemplate(sqlSessionFactory);
     }
-
-
 }

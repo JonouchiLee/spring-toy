@@ -7,6 +7,10 @@ import git.demo.util.PasswordEncrypt;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.javamail.JavaMailSender;
+
+import javax.mail.internet.MimeMessage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +22,13 @@ class MemberServiceTest {
 
     @Autowired MemberService memberService;
     @Autowired MemberMapper memberMapper;
+
+    @MockBean
+    private JavaMailSender javaMailSender;
+    private MimeMessage mimeMessage;
+
+
+
 
     Member member;
 
@@ -65,13 +76,4 @@ class MemberServiceTest {
         memberService.update("testtest","dudwls1234");
         assertThat(PasswordEncrypt.isMatch("dudwls1234",memberMapper.findPwByUserId("testtest"))).isTrue();
     }
-
-
-
-
-
-
-
-
-
 }

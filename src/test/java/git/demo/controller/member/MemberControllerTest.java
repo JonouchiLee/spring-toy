@@ -58,25 +58,6 @@ class MemberControllerTest {
 
     }
 
-
-//    @Test
-//    @DisplayName("회원가입폼 검증 실패케이스 1. 중복회원 ")
-//    void joinForm() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-//                .param("userName", "김민석")
-//                .param("userId", "kimninsuck2")
-//                .param("userPw", "dudwls0505")
-//                .param("userEmail", "dudwls0505@nate.com"));
-//
-//        ResultActions perform2 = mockMvc.perform(MockMvcRequestBuilders.post("/member/join")
-//                .param("userName", "이영진")
-//                .param("userId", "kimninsuck2")
-//                .param("userPw", "dudwls05055")
-//                .param("userEmail", "dudwls0505@natee.com"));
-//
-//        perform2.andExpect(view().name("member/join"));
-//    }
-
     @Test
     @DisplayName("회원가입폼 검증 실패케이스 2. BindingResult ")
     void joinFormFail_BindingError() throws Exception {
@@ -149,16 +130,6 @@ class MemberControllerTest {
      * attributeHasFieldErrors: 필드에 에러가있는지 확인
      */
 
-
-//    @Test
-//    @DisplayName("비밀번호 재설정폼페이지 테스트")
-//    void pwResetPage() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.get("/member/finFindIdAndPw"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("member/finFindIdAndPw"));
-//    }
-
     @Test
     @DisplayName("비밀번호 재설정폼페이지 검증성공시")
     void findSendEmailPost() throws Exception {
@@ -227,17 +198,4 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("member/finFindIdAndPw"));
     }
-
-
-
-    
-
-
-
-//    @Test
-//    @DisplayName("비밀번호 재설정페이지 검증성공")
-//    void pwResetForm_Success() throws Exception {
-//        mockMvc.perform(MockMvcRequestBuilders.post("/member/finFindIdAndPw")
-//                .param(""))
-//    }
 }

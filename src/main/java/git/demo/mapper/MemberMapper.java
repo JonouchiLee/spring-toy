@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 public interface MemberMapper {
 
     boolean isExistsId(String userId);
+
     void insertMember(Member member);
+
     Member findMemberById(String loginId);
+
     void deleteMember(Long id);
 
     void updateUserPassword(@Param("userId") String userId, @Param("newPassword") String newPassword);
@@ -22,5 +25,4 @@ public interface MemberMapper {
     String findPwByUserId(String userId);
 
     void deleteAll();
-
 }

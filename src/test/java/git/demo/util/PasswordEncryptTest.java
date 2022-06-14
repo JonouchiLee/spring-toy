@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class PasswordEncryptTest {
 
-
     @Test
     @DisplayName("암호화 테스트")
     void passwordEncode() {
@@ -19,5 +18,4 @@ class PasswordEncryptTest {
         String raw2 = "1234";
         assertThat(PasswordEncrypt.isMatch(raw2, encodedPassword)).isTrue();
     }
-
 }
