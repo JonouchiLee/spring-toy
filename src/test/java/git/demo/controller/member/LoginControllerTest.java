@@ -3,7 +3,6 @@ package git.demo.controller.member;
 import git.demo.domain.member.Member;
 import git.demo.domain.member.ResetPasswordForm;
 import git.demo.domain.member.SetUserIdAndMailAuthNum;
-import git.demo.exception.DifferentPasswordException;
 import git.demo.mapper.BookMapper;
 import git.demo.mapper.MemberMapper;
 import git.demo.service.book.BookService;

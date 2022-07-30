@@ -18,6 +18,7 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+@RequestMapping("member")
 @RequiredArgsConstructor
 public class MemberController {
 
@@ -26,13 +27,13 @@ public class MemberController {
     private final MemberMapper memberMapper;
     private final SetUserIdAndMailAuthNum setUseridAndMailAuthnum;
 
-    @GetMapping("member/join")
+    @GetMapping("/join")
     public String joinMemberForm(Model model) {
         model.addAttribute("member", new Member());
         return "member/join";
     }
 
-    @PostMapping("member/join")
+    @PostMapping("/join")
     public String joinMember(@Valid @ModelAttribute Member member, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
@@ -44,13 +45,13 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("member/findIdAndPw")
+    @GetMapping("/findIdAndPw")
     public String forwardFindId(Model model) {
         model.addAttribute("findIdForm", new FindIdForm());
         return "member/findIdAndPw";
     }
 
-    @PostMapping("member/findIdAndPw")
+    @PostMapping("/findIdAndPw")
     public String sendEmail(@Valid @ModelAttribute FindIdForm findIdForm,BindingResult bindingResult, Model model) {
 
         // 검증실패
@@ -76,12 +77,12 @@ public class MemberController {
         return "member/finFindIdAndPw";
     }
 
-    @GetMapping("member/finFindIdAndPw")
+    @GetMapping("/finFindIdAndPw")
     public String finSendEmail(Model model) {
         return "member/finFindIdAndPw";
     }
 
-    @PostMapping("member/finFindIdAndPw")
+    @PostMapping("/finFindIdAndPw")
     public String findSendEmailPost(@Valid @ModelAttribute ResetPasswordForm resetPasswordForm,BindingResult bindingResult, Model model) {
 
         //검증실패시

@@ -26,6 +26,7 @@ dependencies {
 	implementation 'mysql:mysql-connector-java:8.0.21'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.6.1'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.1.3'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation group: 'org.mindrot', name: 'jbcrypt', version:'0.3m'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
