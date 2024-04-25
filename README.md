@@ -29,12 +29,9 @@
 <p><strong>서버사이드 유효성 검사</strong></p>
 <p><strong>메일 인증</strong><br>
   
-- 회원가입시 난수를 전송하도록했으며 SecureRandom을 사용  
+- 임시 비밀번호 발급을 위한 SecureRandom을 사용  
   
 - https://velog.io/@dudwls0505/%EC%9E%90%EB%B0%94%EC%9D%98-%EB%82%9C%EC%88%98%EC%83%9D%EC%84%B1%EA%B8%B0-Random-SecureRandom    
-<p><strong>회원가입 성공시 비밀번호 암호화 DB저장<br>
-  
-- https://velog.io/@dudwls0505/%EC%95%94%ED%98%B8
 
 게시판 기본 CRUD
 
